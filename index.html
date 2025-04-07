@@ -9,6 +9,8 @@
 </head>
 <body>
 
+
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -22,7 +24,7 @@
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     <li class="nav-item">
                         <a class="nav-link position-relative" href="#" id="cartToggle">
-                            <span class="badge bg-warning text-dark" id="cart-count">0</span>
+                            🛒 <span class="badge bg-warning text-dark" id="cart-count">0</span>
                         </a>
                     </li>
                 </ul>
@@ -77,30 +79,28 @@
 
     <!-- Section Catalogue -->    
     <section id="catalogue" class="container my-5">
+        
         <h2 class="text-center mb-4">Sélection de Produits</h2>
-        <div class="row">
-            <div class="col-md-3" data-name="Assiette Porcelaine" data-price="1.50">
-                <div class="card text-center">
-                    <img src="https://source.unsplash.com/200x150/?porcelain,plate" class="card-img-top">
-                    <div class="card-body">
-                        <h5>Assiette Porcelaine</h5>
-                        <p>1,50 € / pièce</p>
-                        <button class="btn btn-outline-dark add-to-cart">Ajouter</button>
-                    </div>
+            <div class="card text-center" data-name="Assiette Porcelaine" data-price="1.50">
+                <img src="https://source.unsplash.com/200x150/?porcelain,plate" class="card-img-top" alt="Assiette Porcelaine">
+                <div class="card-body">
+                    <h5>Assiette Porcelaine</h5>
+                    <p>1,50 € / pièce</p>
+                    <button class="btn btn-outline-dark add-to-cart">Ajouter</button>
                 </div>
             </div>
-            <div class="col-md-3" data-name="Verre à vin" data-price="0.90">
-                <div class="card text-center">
-                    <img src="https://source.unsplash.com/200x150/?wine,glass" class="card-img-top">
-                    <div class="card-body">
-                        <h5>Verre à vin</h5>
-                        <p>0,90 € / pièce</p>
-                        <button class="btn btn-outline-dark add-to-cart">Ajouter</button>
-                    </div>
+
+            <div class="card text-center" data-name="Verre Cristal" data-price="2.00">
+                <img src="https://source.unsplash.com/200x150/?crystal,glass" class="card-img-top" alt="Verre Cristal">
+                <div class="card-body">
+                    <h5>Verre Cristal</h5>
+                    <p>2,00 € / pièce</p>
+                    <button class="btn btn-outline-dark add-to-cart">Ajouter</button>
                 </div>
             </div>
-            <!-- Ajoute d'autres produits ici -->
-        </div>
+
+            <!-- Ajoute autant de produits que tu veux de cette manière -->
+
     </section>
     
 
@@ -124,6 +124,14 @@
         </form>
     </section>
 
+    <div id="cart" class="position-fixed bottom-0 end-0 bg-white border p-3 shadow" style="width:300px; display:none; z-index:1000;">
+        <h5>🛒 Mon Panier</h5>
+        <ul id="cart-items" class="list-unstyled"></ul>
+        <hr>
+        <p>Total : <strong id="cart-total">0 €</strong></p>
+        <button class="btn btn-sm btn-danger" id="clear-cart">Vider</button>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
         <p>&copy; 2024 Easy Buffet - Élégance et raffinement</p>
@@ -131,6 +139,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
+    
+
+    
+
+    
 
 </body>
 </html>
