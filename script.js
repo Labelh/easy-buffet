@@ -1,108 +1,64 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const cart = [];
-    const cartContainer = document.createElement('div');
-    cartContainer.id = 'cart';
-    cartContainer.style.position = 'fixed';
-    cartContainer.style.top = '60px';
-    cartContainer.style.right = '20px';
-    cartContainer.style.width = '320px';
-    cartContainer.style.background = '#fff';
-    cartContainer.style.border = '1px solid #ccc';
-    cartContainer.style.padding = '15px';
-    cartContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.2)';
-    cartContainer.style.zIndex = '1000';
-    cartContainer.style.display = 'none';
-    cartContainer.style.maxHeight = '80vh';
-    cartContainer.style.overflowY = 'auto';
-    cartContainer.style.borderRadius = '10px';
+    const cartContainer = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    const cartOffcanvas = new bootstrap.Offcanvas(document.getElementById('cartOffcanvas'));
 
-    document.body.appendChild(cartContainer);
+    // Ouvre le panier quand on clique sur l’icône panier dans la navbar
+    const cartToggle = document.getElementById("cartToggle");
+    if (cartToggle) {
+        cartToggle.addEventListener("click", (e) => {
+            e.preventDefault();
+            cartOffcanvas.show();
+        });
+    }
+    
 
-    const updateCart = () => {
-        cartContainer.innerHTML = '<h5>🛒 Panier</h5>';
-        if (cart.length === 0) {
-            cartContainer.innerHTML += '<p>Votre panier est vide.</p>';
-        } else {
-            const list = document.createElement('ul');
-            list.classList.add('list-group', 'mb-3');
+    // Fonction pour ajouter un produit au panier
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        updateCart();
+        cartOffcanvas.show(); // Affiche le panier automatiquement
+    }
 
-            cart.forEach((item, index) => {
-                const li = document.createElement('li');
-                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    // Fonction pour mettre à jour l'affichage du panier
+    function updateCart() {
+        cartContainer.innerHTML = "";
+        let total = 0;
 
-                li.innerHTML = `
-                    <div>
-                        <strong>${item.name}</strong><br>
-                        <small>${item.price.toFixed(2)} € x ${item.qty}</small>
-                    </div>
-                    <div>
-                        <button class="btn btn-sm btn-outline-secondary me-1" data-action="decrease" data-index="${index}">-</button>
-                        <button class="btn btn-sm btn-outline-secondary me-1" data-action="increase" data-index="${index}">+</button>
-                        <button class="btn btn-sm btn-outline-danger" data-action="remove" data-index="${index}">✖</button>
-                    </div>
-                `;
-                list.appendChild(li);
-            });
+        cart.forEach((item, index) => {
+            const itemElement = document.createElement("li");
+            itemElement.className = "list-group-item d-flex justify-content-between align-items-center";
+            itemElement.innerHTML = `
+                <span>${item.name} - ${item.price.toFixed(2)} €</span>
+                <button class="btn btn-sm btn-danger remove-item" data-index="${index}">X</button>
+            `;
+            cartContainer.appendChild(itemElement);
+            total += item.price;
+            document.getElementById("cart-count").textContent = cart.length;
 
-            cartContainer.appendChild(list);
+        });
 
-            const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-            const totalDisplay = document.createElement('p');
-            totalDisplay.className = 'fw-bold text-end';
-            totalDisplay.textContent = `Total : ${total.toFixed(2)} €`;
-            cartContainer.appendChild(totalDisplay);
-        }
+        cartTotal.textContent = total.toFixed(2);
 
-        // Attacher les boutons après mise à jour
-        cartContainer.querySelectorAll('button[data-action]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const action = btn.getAttribute('data-action');
-                const index = parseInt(btn.getAttribute('data-index'));
-
-                if (action === 'increase') {
-                    cart[index].qty++;
-                } else if (action === 'decrease') {
-                    if (cart[index].qty > 1) {
-                        cart[index].qty--;
-                    } else {
-                        cart.splice(index, 1);
-                    }
-                } else if (action === 'remove') {
-                    cart.splice(index, 1);
-                }
+        // Gestion des suppressions
+        document.querySelectorAll(".remove-item").forEach(button => {
+            button.addEventListener("click", (e) => {
+                const index = e.target.getAttribute("data-index");
+                cart.splice(index, 1);
                 updateCart();
             });
         });
-    };
+    }
 
-    // Ajout des boutons sur les cartes avec data-name et data-price
-    document.querySelectorAll('.card').forEach(card => {
-        const name = card.querySelector('h3')?.innerText.trim();
-        const price = parseFloat(card.getAttribute('data-price') || 0);
-
-        // Ajoute les attributs requis si absents
-        card.setAttribute('data-name', name);
-        card.setAttribute('data-price', price || 10); // prix par défaut
-
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-primary mt-2';
-        btn.innerText = 'Ajouter au panier';
-
-        btn.addEventListener('click', () => {
-            const name = card.getAttribute('data-name');
-            const price = parseFloat(card.getAttribute('data-price'));
-
-            const existing = cart.find(item => item.name === name);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ name, price, qty: 1 });
-            }
-
-            updateCart();
-            cartContainer.style.display = 'block'; // 👉 Affichage auto du panier
+    // Attache les événements sur les vrais boutons présents dans le HTML
+    document.querySelectorAll(".add-to-cart").forEach(button => {
+        button.addEventListener("click", (e) => {
+            const card = e.target.closest(".card");
+            const name = card.querySelector("h5").textContent.trim();
+            const priceText = card.querySelector("p").textContent.trim();
+            const price = parseFloat(priceText.replace(",", ".").replace(/[^\d.]/g, ""));
+            addToCart(name, price);
         });
-
-        card.querySelector('.card-body').appendChild(btn);
     });
 });

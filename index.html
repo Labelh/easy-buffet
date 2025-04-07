@@ -20,12 +20,13 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#services">Nos Offres</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="#" id="cartToggle">
+                            🛒 <span class="badge bg-warning text-dark" id="cart-count">0</span>
+                        </a>
+                    </li>                    
                 </ul>
-                <li class="nav-item">
-                    <a class="nav-link position-relative" href="#" id="cartToggle">
-                        🛒 <span class="badge bg-warning text-dark" id="cart-count">0</span>
-                    </a>
-                </li>
+
                 
             </div>
         </div>
@@ -122,6 +123,21 @@
             <button type="submit" class="btn btn-dark">Envoyer</button>
         </form>
     </section>
+
+    <!-- Section Panier -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartLabel">
+        <div class="offcanvas-header">
+        <h5 id="cartLabel">Votre Panier</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fermer"></button>
+        </div>
+        <div class="offcanvas-body">
+        <ul id="cart-items" class="list-group mb-3"></ul>
+        <p class="text-end fw-bold">Total : <span id="cart-total">0.00</span> €</p>
+        <button class="btn btn-dark w-100">Finaliser la commande</button>
+        </div>
+    </div>
+  
+    
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
