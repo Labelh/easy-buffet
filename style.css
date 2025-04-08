@@ -1,6 +1,6 @@
 /* Styles généraux */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif, monospace;
     color: #333;
     background-color: #f8f8f8;
 }
@@ -68,4 +68,29 @@ form {
 /* Footer */
 footer {
     margin-top: 50px;
+}
+
+.fixed-price {
+    width: 80px;
+    display: inline-block;
+    text-align: right;
+}
+
+#cart-count {
+    min-width: 24px;
+    text-align: center;
+    display: inline-block;
+    font-family: monospace;
+}
+
+#cart-items {
+    font-family: monospace;
+    filter: grayscale(100%);
+    font-variant-numeric: tabular-nums;
+}
+
+
+.offcanvas-wide {
+    width: 1600px;
+    max-width: 100%; /* Pour éviter de dépasser l’écran */
 }
